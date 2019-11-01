@@ -22,7 +22,7 @@ class Tieba:
         # 手机端的UA
         self.headers = {
             "User-Agent": "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.70 Mobile Safari/537.36"}
-        self.item_file_name = u'贴吧图片.txt'
+        self.item_file_name = self.tieba_name + u'_贴吧图片.txt'
         self.item_folder_name = 'tieba_files'
         self.item_path_name = os.path.join(os.getcwd(), self.item_folder_name, self.item_file_name)
 
@@ -33,7 +33,7 @@ class Tieba:
         '''获取所有的urllist'''
         url = "https://tieba.baidu.com/f?kw=" + self.tieba_name + "&ie=utf-8&pn={}"
         url_list = []
-        for i in range(0, 5):  # 通过循环拼接100个url
+        for i in range(0, 2):  # 通过循环拼接100个url
             url_list.append(url.format(i * 30))
         return url_list  # 返回100个url的urllist
 
