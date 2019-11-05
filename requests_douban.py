@@ -29,8 +29,12 @@ class DoubanSpider():
         content_list = dict_res["subjects"]
         return content_list
 
-    def save_item(self, content_list=None):
-        pass
+    def save_item(self, item=None):
+        '''保存一个item'''
+        with open(self.item_path_name, "a", encoding="utf-8") as f:
+            f.write(json.dumps(item, ensure_ascii=False, indent=2))
+            f.write("\n")
+
 
     def run(self):
         num = 0
