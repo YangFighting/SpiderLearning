@@ -52,8 +52,8 @@ class Tieba:
         li_list = html_etree.xpath("//li[@class='tl_shadow tl_shadow_new ']")  # 手机端的li 标签
         total_items = []
         for li_i in li_list:  # 遍历分组
-            href_list = li_i.xpath("./a/@href")
             # 每个帖子的链接
+            href_list = li_i.xpath("./a/@href")
             href = "http://tieba.baidu.com" + href_list[0] if len(href_list) > 0 else None
             # 每个帖子的主题
             title_list = li_i.xpath("./a/div[1]/span[1]/text()")
