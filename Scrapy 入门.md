@@ -75,3 +75,44 @@ if __name__ == '__main__':
     execute(['scrapy','crawl','itcast'])
 ```
 使用pycharm进行断点调试
+
+## 请求详情 与 翻页
+
+当获取url列表后还需请求详情或翻页时，构造 详情和翻页url，使用 `scrapy.Request` 请求详情url，并通过参数 `meta` 来传递解析的内容
+
+```python
+# 获取详情
+post_id_url = "https://careers.tencent.com/tencentcareer/api/post/ByPostId?&postId={}&language=zh-cn". \    format(position_item["post_id"])
+yield scrapy.Request(post_id_url, callback=HrSpider.parse_detail, meta={"item": position_item})
+# 翻页请求
+if len(title_list) == self.pageSize and self.pageSize <= self.max_page_Index:
+    self.pageIndex += 1
+    next_page_url = 'https://careers.tencent.com/tencentcareer/api/post/Query?pageIndex={}&pageSize={}'.format(self.pageIndex, self.pageSize)
+    yield scrapy.Request(next_page_url, callback=self.parse)
+```
+
+**注意**
+
+- 获取详情前不用 `yield` 返回 item
+
+
+
+## pipeline使用——开始与结束
+
+`open_spider`和`close_spide`r方法在 在开启爬虫和结束爬虫的时候执行， 只执行一次，可以在两种方法中执行文件或者数据库的初始化
+
+对于初始化配置，可以在`setting`文件中添加字段，在通过`spider.settings.get()`的方式来访问配置信息
+
+```python
+def open_spider(self, spider):   
+    """ 在开启爬虫的时候执行， 只执行一次"""    
+    # 将文件清空    
+    with open(spider.settings.get("SAVE_FILE_NAME"), "w", encoding="utf-8") as f:
+        f.write("")    
+        self.start_time = datetime.datetime.now()
+
+def close_spider(self, spider):    
+    self.end_time = datetime.datetime.now()    
+    print("程序运行时间：{}s".format((self.end_time - self.start_time).seconds))
+```
+
