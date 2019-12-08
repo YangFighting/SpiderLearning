@@ -4,8 +4,11 @@
 #
 # Don't forget to add your pipeline to the ITEM_PIPELINES setting
 # See: https://docs.scrapy.org/en/latest/topics/item-pipeline.html
+import json
 
 
 class MyspiderPipeline(object):
     def process_item(self, item, spider):
+        with open("teach.txt", "a", encoding="utf-8") as f:
+            json.dump(dict(item), f, ensure_ascii=False, indent=2)
         return item
