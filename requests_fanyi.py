@@ -25,5 +25,9 @@ def query_data(input_data = None):
 
 res = requests.post(post_url,headers=headers, data=query_data(input_data="你好"))
 res_dict = json.loads(res.content.decode())
-res_data = res_dict["trans_result"]["data"][0]["dst"]
-print(res_data)
+if res_dict['errno'] == 0:
+    res_data = res_dict["trans_result"]["data"][0]["dst"]
+    print(res_data)
+else:
+    print("errno: {0}".format(res_dict['errno']))
+    print("翻译出错")
